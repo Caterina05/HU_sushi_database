@@ -11,13 +11,12 @@ public class Database {
         System.out.println("Connected to database");
     }
 
-
     public String selectAll() {
         String result = "";
 
         //Controlla connessione al database
         try {
-            if(connection == null || !connection.isValid(5)){
+            if (connection == null || !connection.isValid(5)) {
                 System.err.println("Errore di connessione al database");
                 return null;
             }
@@ -28,7 +27,6 @@ public class Database {
 
         String query = "SELECT * FROM menu";
 
-
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet piatti = statement.executeQuery();
@@ -38,22 +36,17 @@ public class Database {
                 result += piatti.getString("prezzo") + "\t";
                 result += piatti.getString("quantita") + "\n";
             }
-
-
         } catch (SQLException e) {
             System.err.println("Errore di query: " + e.getMessage());
             return null;
         }
-
-
         return result;
     }
 
     public boolean insert(String nomePiatto, float prezzo, int quantita) {
-
         //Controlla connessione al database
         try {
-            if(connection == null || !connection.isValid(5)){
+            if (connection == null || !connection.isValid(5)) {
                 System.err.println("Errore di connessione al database");
                 return false;
             }
@@ -72,14 +65,40 @@ public class Database {
             statement.setInt(3, quantita);
 
             statement.executeUpdate();
-
-
         } catch (SQLException e) {
             System.err.println("Errore di query: " + e.getMessage());
             return false;
         }
+        return true;
+    }
 
+    public boolean update(int id, String nuovoNome, float nuovoPrezzo, int nuovaQuantita) {
+        String query = "UPDATE menu SET piatto = ?, prezzo = ?, quantita = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, nuovoNome);
+            statement.setFloat(2, nuovoPrezzo);
+            statement.setInt(3, nuovaQuantita);
+            statement.setInt(4, id);
 
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.err.println("Errore di aggiornamento: " + e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public boolean delete(int id) {
+        String query = "DELETE FROM menu WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Errore di eliminazione: " + e.getMessage());
+            return false;
+        }
         return true;
     }
 }
