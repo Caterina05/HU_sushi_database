@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
     <data-source source="LOCAL" name="sushi" uuid="874da38c-af35-441b-bbfa-c4e47af5e03b">
-      <driver-ref>sqlite.xerial</driver-ref>
+      <driver-ref>ce5f2497-fc12-4892-ac98-2fae993f5946</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/database/sushi.db</jdbc-url>

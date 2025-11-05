@@ -1,14 +1,23 @@
 import java.sql.*;
 
+// singleton (disegn pattern)
 public class Database {
     //connetti
     //query
     private Connection connection;
+    private static Database instance;
 
-    public Database() throws SQLException {
+    private Database() throws SQLException {
         String url = "jdbc:sqlite:database/sushi.db";
         connection = DriverManager.getConnection(url);
         System.out.println("Connected to database");
+    }
+
+    public static Database getInstance() throws SQLException {
+        if (instance == null) {
+            instance = new Database();
+        }
+        return instance;
     }
 
     public String selectAll() {
